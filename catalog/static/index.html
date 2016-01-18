@@ -7,9 +7,9 @@
   <link href="favicon.png" rel="shortcut icon">
   <link href="//fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet">
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="//cdn.jsdelivr.net/animatecss/3.2.0/animate.css" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/journal/bootstrap.min.css" rel="stylesheet">
+  <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet">
   <link href="/stylesheets/angular-toastr.css" rel="stylesheet">
   <link href="/stylesheets/styles.css" rel="stylesheet">
 </head>
@@ -22,11 +22,11 @@
     <li><a href="/#/">Home</a></li>
     <li ng-if="isAuthenticated()"><a href="/#/profile">Profile</a></li>
   </ul>
-  <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">
+  <ul ng-if="!isAuthenticated()" class="nav navbar-nav">
     <li><a href="/#/login">Login</a></li>
     <li><a href="/#/signup">Sign up</a></li>
   </ul>
-  <ul ng-if="isAuthenticated()" class="nav navbar-nav pull-right">
+  <ul ng-if="isAuthenticated()" class="nav navbar-nav">
     <li><a href="/#/logout">Logout</a></li>
   </ul>
 </div>
