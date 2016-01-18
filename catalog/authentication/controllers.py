@@ -1,6 +1,4 @@
-import os
-
-from flask import Blueprint, request, send_file, jsonify, g
+from flask import Blueprint, request, jsonify, g
 import jwt, json, requests
 from datetime import datetime, timedelta
 
