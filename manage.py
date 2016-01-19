@@ -2,7 +2,6 @@ from catalog import app
 from catalog.models import db, MusicItem, Composer, Instrument, MusicFile
 import datetime
 
-
     
 '''Seed the database with test data'''
 def setUp(self):
@@ -75,3 +74,15 @@ if __name__ == '__main__':
         db.create_all()
 
         setUp(db)
+        
+        #List all music items belonging to each composer
+        query = db.session.query(Composer)
+        for c in query:
+            for m in c.musicItems:
+                print "%s composed %s %s in the key of %s" % (c.name, m.name, m.number, m.key)
+
+        #List all files belonging to each music item
+        query = db.session.query(MusicItem)
+        for m in query:
+            for f in m.files:
+                print "%s is associated with %s" % (m.name, f.path)
