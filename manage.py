@@ -1,57 +1,77 @@
-import json
-import argparse
-import requests
-
-from catalog.core import db
+from catalog import app
+from catalog.models import db, MusicItem, Composer, Instrument, MusicFile
+import datetime
 
 
-def create_sample_db_entry(api_endpoint, payload):
-    url = 'http://localhost:5000/' + api_endpoint
-    r = requests.post(
-        url, data=json.dumps(payload),
-        headers={'Content-Type': 'application/json'})
-    print r.text
+    
+'''Seed the database with test data'''
+def setUp(self):
+ 
+    #create the composers
+    today = datetime.date.today()
+    composer1 = Composer(name="Chopin", dateOfBirth=today, dateOfDeath=today)
+    composer2 = Composer(name="Rachmaninoff", dateOfBirth=today, dateOfDeath=today)
+    composer3 = Composer(name="Prokovief", dateOfBirth=today, dateOfDeath=today)
+    composer4 = Composer(name="Schubert", dateOfBirth=today, dateOfDeath=today)
+     
+    db.session.add(composer1)
+    db.session.add(composer2)
+    db.session.add(composer3)
+    db.session.add(composer4)
+    db.session.commit()
+ 
+    #create file objects where music item files will be stored
+    file1 = MusicFile(path="http://fileserver/nocturneop2no3.pdf")
+    file2 = MusicFile(path="http://fileserver/nocturneop2no4.pdf")
+    file3 = MusicFile(path="http://fileserver/triopg1.jpg")
+    file4 = MusicFile(path="http://fileserver/triopg2.jpg")
+    file5 = MusicFile(path="http://fileserver/triopg3.jpg")
+    
+    db.session.add(file1)
+    db.session.add(file2)
+    db.session.add(file3)
+    db.session.add(file4)
+    db.session.add(file5)
+    db.session.commit()
+ 
+    #create each music item
+    musicitem1 = MusicItem(name='Nocturne', number='Op. 2, no. 3', key='C minor', composer=composer1)
+    musicitem2 = MusicItem(name='Nocturne', number='Op. 2, no. 4', key='C major', composer=composer1)
+    musicitem3 = MusicItem(name='Piano Trio', number='Op. 62, no. 1', key='D major', composer=composer2)
+ 
+    #add instruments to the database
+    instrument1 = Instrument(name='Piano')
+    instrument2 = Instrument(name='Violin')
+    instrument3 = Instrument(name='Cello')
+ 
+    db.session.add(instrument1)
+    db.session.add(instrument2)
+    db.session.add(instrument3)
+    db.session.commit()
+     
+    #add the required intruments and files to each music item
+    musicitem1.instruments.append(instrument1)
+    musicitem2.instruments.append(instrument1)
+    musicitem3.instruments.append(instrument1)
+    musicitem3.instruments.append(instrument2)
+    musicitem3.instruments.append(instrument3)
+     
+    db.session.add(musicitem1)
+    db.session.add(musicitem2)
+    db.session.add(musicitem3)
+    db.session.commit()
+ 
+    musicitem1.files.append(file1)
+    musicitem2.files.append(file2)
+    musicitem3.files.append(file3)
+    musicitem3.files.append(file4)
+    musicitem3.files.append(file5)
+    db.session.commit()
 
-
-def create_db():
-    db.create_all()
-
-
-def drop_db():
-    db.drop_all()
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description='Manage this Flask application.')
-    parser.add_argument(
-        'command', help='the name of the command you want to run')
-    parser.add_argument(
-        '--seedfile', help='the file with data for seeding the database')
-    args = parser.parse_args()
-
-    if args.command == 'create_db':
-        create_db()
-
-        print "DB created!"
-    elif args.command == 'delete_db':
-        drop_db()
-
-        print "DB deleted!"
-    elif args.command == 'seed_db' and args.seedfile:
-        with open(args.seedfile, 'r') as f:
-            seed_data = json.loads(f.read())
-
-        for item_class in seed_data:
-            items = seed_data[item_class]
-            print items
-            for item in items:
-                print item
-                create_sample_db_entry('api/' + item_class, item)
-
-        print "\nSample data added to database!"
-    else:
-        raise Exception('Invalid command')
-
+    
 if __name__ == '__main__':
-    main()
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+
+        setUp(db)
