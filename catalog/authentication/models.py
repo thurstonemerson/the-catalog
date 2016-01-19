@@ -43,6 +43,3 @@ class User(db.Model):
                     facebook=self.facebook, google=self.google, twitter=self.twitter)
 
 
-# models for which we want to create API endpoints
-app.config['API_MODELS'] = {'user': User}
-

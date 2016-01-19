@@ -4,7 +4,6 @@ Created on 14/01/2016
 @author: Jessica
 '''
 from catalog.core import db
-from catalog import app
 import datetime
 
 class Composer(db.Model): 
@@ -13,6 +12,11 @@ class Composer(db.Model):
     name = db.Column(db.String(120), nullable=False)
     dateOfBirth = db.Column(db.Date, nullable=False)
     dateOfDeath = db.Column(db.Date, nullable=False)
+    musicItems = db.relationship("MusicItem")
+    
+    def to_json(self):
+        return dict(id=self.id, name=self.name, dateOfBirth=str(self.dateOfBirth),
+                    dateOfDeath=str(self.dateOfDeath))
    
 class Instrument(db.Model): 
     __tablename__ = "instrument"
@@ -43,9 +47,8 @@ class MusicItem(db.Model):
     instruments = db.relationship(Instrument, secondary=musicitem_instruments)
     files = db.relationship(MusicFile)
     
+    def to_json(self):
+        return dict(id=self.id, name=self.name, number=self.number,
+                    key=self.key, dateAdded=str(self.dateAdded), dateOfComposition=str(self.dateOfComposition))
     
-
-
-# models for which we want to create API endpoints
-app.config['API_MODELS'] = {'catalog': MusicItem}
 

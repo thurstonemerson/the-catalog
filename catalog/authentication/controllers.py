@@ -1,3 +1,10 @@
+'''
+We do not need to create a random string and store in the session to mitigate CSRF attacks
+because we are using JSON web tokens to authenticate users rather than cookies.
+(See here http://stackoverflow.com/questions/21357182/csrf-token-necessary-when-using-stateless-sessionless-authentication)
+
+We do need the client/server to run under HTTPS as we are passing around passwords.
+'''
 from flask import Blueprint, request, jsonify, g
 import jwt, json, requests
 from datetime import datetime, timedelta
