@@ -1,37 +1,28 @@
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">Home Page</div>
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-sm-6">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-            fermentum massa justo sit amet risus. Etiam porta sem malesuada
-            magna mollis euismod. Donec sed odio dui.</p>
-          <p><a class="btn btn-primary" href="#">View details »</a></p>
-        </div>
-        <div class="col-sm-6">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-            fermentum massa justo sit amet risus. Etiam porta sem malesuada
-            magna mollis euismod. Donec sed odio dui.</p>
-          <p><a class="btn btn-primary" href="#">View details »</a></p>
-        </div>
+
+  <div ng-if="isAuthenticated()">
+    <div class="row">
+      <div ng-repeat="photo in photos" class="col-lg-2 col-sm-3 col-xs-4">
+        <a href="#/photo/{{photo.id}}">
+          <img ng-src="{{photo.images.standard_resolution.url}}" class="thumbnail img-responsive">
+        </a>
       </div>
     </div>
-    <div class="panel-footer text-center">
-      <ul class="list-inline">
-        <li><i class="ion-star"></i> {{stars | number}} stars</li>
-        <li><i class="ion-fork-repo"></i> {{forks | number}} forks</li>
-        <li><i class="ion-pull-request"></i> {{issues | number}} issues</li>
-      </ul>
+  </div>
+
+  <div ng-if="!isAuthenticated()">
+    <div class="jumbotron">
+      <h2><i class="ion-bonfire"></i> TheCatalog</h2>
+      <p>Store and catalog your sheet music files! </p>
+      <p>Upload an annotated pdf file or scan your sheet music
+      with your own customised edits and fingering. </p>
+      Please log in with your Google+, Facebook, Twitter account or 
+      create a new email account.</p>
+      <p>
+        <a class="btn btn-lg btn-success" href="#/login"><i class="ion-log-in"></i> Login</a>
+        <a class="btn btn-lg btn-primary" href="#/signup"><i class="ion-person-add"></i> Sign up</a>
+      </p>
     </div>
   </div>
-</div>
-<div class="text-center">
-  <a class="btn btn-default" href="https://github.com/sahat/satellizer"><i class="ion-social-github"></i> GitHub project</a>
-  <a class="btn btn-default" href="https://github.com/sahat/satellizer/issues/new"><i class="ion-bug"></i> Report issue</a>
-</div>
+
 </div>
