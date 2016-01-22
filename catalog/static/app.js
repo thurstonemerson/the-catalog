@@ -1,5 +1,6 @@
+//var app = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer', "xeditable"])
 angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer'])
-  .config(function($stateProvider, $urlRouterProvider, $authProvider) {
+.config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -34,7 +35,15 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         resolve: {
           loginRequired: loginRequired
         }
-      });
+      })
+      .state('composers', {
+          url: '/composers',
+          templateUrl: 'partials/composers.html',
+          controller: 'ComposerCtrl',
+          resolve: {
+            loginRequired: loginRequired
+          }
+        });
 
     $urlRouterProvider.otherwise('/');
 
@@ -49,7 +58,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
     $authProvider.twitter({
       url: '/auth/twitter'
     });
-
+  	
     function skipIfLoggedIn($q, $auth) {
       var deferred = $q.defer();
       if ($auth.isAuthenticated()) {
@@ -70,3 +79,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
       return deferred.promise;
     }
   });
+
+//app.run(function(editableOptions) {
+//	  editableOptions.theme = 'bs3';
+//	});

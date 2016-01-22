@@ -1,26 +1,59 @@
 import os
 
-from flask import send_file, jsonify
+from flask import send_file, jsonify, request
 from catalog import app, client_path
 from catalog.authentication.controllers import login_required
 from catalog.models import Composer
+from catalog.core import db
 
 # Route
 @app.route('/')
 def index():
     return send_file(os.path.join(client_path, 'index.html'))
 
-@app.route('/catalog/<int:composer_id>/JSON')
-#@login_required
+@app.route('/api/catalog/composers/JSON')
+@login_required
+def allComposersJSON():
+    composers = Composer.query.all()
+    return jsonify(composers=[c.to_json() for c in composers])
+
+
+@app.route('/api/catalog/<int:composer_id>/JSON')
+@login_required
 def composerJSON(composer_id):
     composer = Composer.query.filter_by(id=composer_id).first()
     return jsonify(composer.to_json())
 
-@app.route('/catalog/<int:composer_id>/musicitems/JSON')
-#@login_required
+@app.route('/api/catalog/<int:composer_id>/musicitems/JSON')
+@login_required
 def composerMusicItemsJSON(composer_id):
     composer = Composer.query.filter_by(id=composer_id).first()
-    return jsonify(MenuItems=[i.to_json() for i in composer.musicItems])
+    return jsonify(musicItems=[i.to_json() for i in composer.musicItems])
+
+@app.route('/api/catalog/updatecomposer', methods=['POST'])
+@login_required
+def updateComposer():
+    composer = Composer.query.filter_by(id=request.json['id']).first()
+
+    if not composer:
+        response = jsonify(message="Couldn't find composer")
+        response.status_code = 401
+        return response
+    
+    composer.name = request.json['name']
+    composer.dateOfBirth = request.json['dateOfBirth']
+    composer.dateOfDeath = request.json['dateOfDeath']
+    db.session.commit()
+    
+    response = jsonify(message="Composer %s updated"%composer.name)
+    response.status_code = 200
+    return response
+        
+#     user = User(email=request.json['email'], password=request.json['password'])
+#     db.session.add(user)
+#     db.session.commit()
+#     token = create_token(user)
+#     return jsonify(token=token)
 
 #JSON APIs to view catalog information
 # @app.route('/restaurant/<int:restaurant_id>/menu/JSON')

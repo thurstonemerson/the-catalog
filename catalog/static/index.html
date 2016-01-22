@@ -5,36 +5,40 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>TheCatalog</title>
   <link href="favicon.png" rel="shortcut icon">
-  <link href="//fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet">
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="//cdn.jsdelivr.net/animatecss/3.2.0/animate.css" rel="stylesheet">
   <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/journal/bootstrap.min.css" rel="stylesheet">
   <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet">
   <link href="/stylesheets/angular-toastr.css" rel="stylesheet">
   <link href="/stylesheets/styles.css" rel="stylesheet">
+<!--   <link href="/stylesheets/xeditable.css" rel="stylesheet"> -->
 </head>
+
 <body>
 <div ng-controller="NavbarCtrl" class="navbar navbar-default navbar-static-top">
   <div class="navbar-header">
     <a class="navbar-brand" href="/"><i class="ion-bonfire"></i>TheCatalog</a>
   </div>
-  <ul class="nav navbar-nav">
+  <ul ng-if="isAuthenticated()" class="nav navbar-nav">
     <li><a href="/#/">Home</a></li>
-    <li ng-if="isAuthenticated()"><a href="/#/profile">Profile</a></li>
+    <li><a href="/#/profile">Profile</a></li>
+    <li><a href="/#/composers">Composers</a></li>
+    <li><a href="/#/logout">Logout</a></li>
   </ul>
   <ul ng-if="!isAuthenticated()" class="nav navbar-nav">
     <li><a href="/#/login">Login</a></li>
     <li><a href="/#/signup">Sign up</a></li>
-  </ul>
-  <ul ng-if="isAuthenticated()" class="nav navbar-nav">
-    <li><a href="/#/logout">Logout</a></li>
   </ul>
 </div>
 
 <div ui-view></div>
 
 <!-- Third-party Libraries -->
-<script src="/vendor/angular.js"></script>
+ 
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script> -->
+<!-- <script src="http://vitalets.github.io/angular-xeditable/dist/js/xeditable.js"></script> -->
+
+
+<script src="/vendor/angular.js"></script> 
 <script src="/vendor/angular-animate.js"></script>
 <script src="/vendor/angular-messages.js"></script>
 <script src="/vendor/angular-resource.js"></script>
@@ -52,7 +56,9 @@
 <script src="/controllers/signup.js"></script>
 <script src="/controllers/logout.js"></script>
 <script src="/controllers/profile.js"></script>
+<script src="/controllers/composers.js"></script>
 <script src="/controllers/navbar.js"></script>
 <script src="/services/account.js"></script>
+<script src="/services/api.js"></script>
 </body>
 </html>
