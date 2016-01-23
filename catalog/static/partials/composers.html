@@ -1,80 +1,145 @@
 <div class="container">
 
-	
 	<div class="panel panel-default">
 
 		<div class="panel-heading">Add new composer</div>
 
 		<div class="panel-body">
 
-			<form class="form-horizontal"  method="post" ng-submit="addComposer(composer)">
-				
+			<form class="form-horizontal" method="post"
+				ng-submit="addComposer(composer)">
+
 				<div class="form-group">
-					<label class="col-sm-2 control-label"><i class="ion-person"></i> Name</label> 
+					<label class="col-sm-2 control-label"><i class="ion-person"></i>
+						Name</label>
 					<div class="col-sm-5">
 						<input type="text" class="form-control" ng-model="composer.name" />
 					</div>
 				</div>
-				
+
 				<div class="form-group">
-					<label class="col-sm-2 control-label"><i class="ion-calendar"></i> Date of birth</label> 
+					<label class="col-sm-2 control-label"><i
+						class="ion-calendar"></i> Date of birth</label>
 					<div class="col-sm-3">
-						 <input type="date" class="form-control" ng-model="composer.dateOfBirth" />
+						<input type="date" class="form-control"
+							ng-model="composer.dateOfBirth" />
 					</div>
 				</div>
-				
+
 				<div class="form-group">
-					<label class="col-sm-2 control-label"><i class="ion-calendar"></i> Date of death</label> 
+					<label class="col-sm-2 control-label"><i
+						class="ion-calendar"></i> Date of death</label>
 					<div class="col-sm-3">
-						 <input type="date" class="form-control" ng-model="composer.dateOfDeath" />
+						<input type="date" class="form-control"
+							ng-model="composer.dateOfDeath" />
 					</div>
 				</div>
-				
-				<button class="col-sm-offset-2 btn btn-success">Add</button>
-                <button type="button" ng-click="reset(composer.id)" class="btn btn-primary">Cancel</button>
+
+				<button type="submit" class="col-sm-offset-2 btn btn-success">Add</button>
+				<button type="reset" class="btn btn-info">Cancel</button>
 			</form>
 
 		</div>
 	</div>
-	
 
 
-	<div ng-repeat="composer in response.composers"
-		class="panel panel-default">
+	<div class="row" ng-repeat="cols in rows">
+		<div class="col-md-6" ng-repeat="composer in cols">
+			<div class="panel panel-default col-md-12">
+				<div class="panel-heading">{{composer.name}}</div>
 
-		<div class="panel-heading">{{composer.name}}</div>
+				<div class="panel-body">
 
-		<div class="panel-body">
+					<form class="form-horizontal" method="post"
+						form-on-change="change(composer)"
+						ng-submit="updateComposer(composer)">
 
-			<form class="form-horizontal"  method="post" form-on-change="change(composer)" ng-submit="updateComposer(composer)">
-				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><i class="ion-person"></i> Name</label> 
-					<div class="col-sm-5">
-						<input type="text" class="form-control" ng-model="composer.name" />
-					</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label"><i
+								class="ion-person"></i> Name</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" ng-model="composer.name" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-5 control-label"><i
+								class="ion-calendar"></i> Date of birth</label>
+							<div class="col-sm-7">
+								<input type="date" class="form-control"
+									ng-model="composer.dateOfBirth" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-5 control-label"><i
+								class="ion-calendar"></i> Date of death</label>
+							<div class="col-sm-7">
+								<input type="date" class="form-control"
+									ng-model="composer.dateOfDeath" />
+							</div>
+						</div>
+
+						<button type="submit" class="col-sm-offset-5 btn btn-success">Update</button>
+						<button type="button" ng-click="reset(composer.id)"
+							class="btn btn-info">Cancel</button>
+						<button type="button" ng-click="deleteComposer(composer)"
+							class="btn btn-primary">Delete</button>
+					</form>
+
 				</div>
-				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><i class="ion-calendar"></i> Date of birth</label> 
-					<div class="col-sm-3">
-						 <input type="date" class="form-control" ng-model="composer.dateOfBirth" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><i class="ion-calendar"></i> Date of death</label> 
-					<div class="col-sm-3">
-						 <input type="date" class="form-control" ng-model="composer.dateOfDeath" />
-					</div>
-				</div>
-				
-				<button class="col-sm-offset-2 btn btn-success">Update</button>
-                <button type="button" ng-click="reset(composer.id)" class="btn btn-primary">Cancel</button>
-			</form>
-
+			</div>
 		</div>
 	</div>
+
+
+
+<!-- 	<div ng-repeat="composer in response.composers" -->
+<!-- 		class="panel panel-default"> -->
+
+<!-- 		<div class="panel-heading">{{composer.name}}</div> -->
+
+<!-- 		<div class="panel-body"> -->
+
+<!-- 			<form class="form-horizontal" method="post" -->
+<!-- 				form-on-change="change(composer)" -->
+<!-- 				ng-submit="updateComposer(composer)"> -->
+
+<!-- 				<div class="form-group"> -->
+<!-- 					<label class="col-sm-2 control-label"><i class="ion-person"></i> -->
+<!-- 						Name</label> -->
+<!-- 					<div class="col-sm-5"> -->
+<!-- 						<input type="text" class="form-control" ng-model="composer.name" /> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+
+<!-- 				<div class="form-group"> -->
+<!-- 					<label class="col-sm-2 control-label"><i -->
+<!-- 						class="ion-calendar"></i> Date of birth</label> -->
+<!-- 					<div class="col-sm-3"> -->
+<!-- 						<input type="date" class="form-control" -->
+<!-- 							ng-model="composer.dateOfBirth" /> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+
+<!-- 				<div class="form-group"> -->
+<!-- 					<label class="col-sm-2 control-label"><i -->
+<!-- 						class="ion-calendar"></i> Date of death</label> -->
+<!-- 					<div class="col-sm-3"> -->
+<!-- 						<input type="date" class="form-control" -->
+<!-- 							ng-model="composer.dateOfDeath" /> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+
+<!-- 				<button type="submit" class="col-sm-offset-2 btn btn-success">Update</button> -->
+<!-- 				<button type="button" ng-click="reset(composer.id)" -->
+<!-- 					class="btn btn-primary">Cancel</button> -->
+<!-- 				<button type="button" ng-click="deleteComposer(composer)" -->
+<!-- 					class="btn btn-danger">Delete</button> -->
+<!-- 			</form> -->
+
+<!-- 		</div> -->
+<!-- 	</div> -->
 
 </div>
 

@@ -14,7 +14,7 @@ def index():
 @app.route('/api/catalog/composers/JSON')
 @login_required
 def allComposersJSON():
-    composers = Composer.query.all()
+    composers = Composer.query.order_by(Composer.name).all()
     return jsonify(composers=[c.to_json() for c in composers])
 
 
@@ -46,6 +46,35 @@ def updateComposer():
     db.session.commit()
     
     response = jsonify(message="Composer %s updated"%composer.name)
+    response.status_code = 200
+    return response
+
+
+@app.route('/api/catalog/addcomposer', methods=['POST'])
+@login_required
+def addComposer():
+    composer = Composer(name=request.json['name'], dateOfBirth=request.json['dateOfBirth'], dateOfDeath=request.json['dateOfDeath'])
+    db.session.add(composer)
+    db.session.commit()
+   
+    response = jsonify(message="Added composer %s"%composer.name)
+    response.status_code = 200
+    return response
+
+@app.route('/api/catalog/deletecomposer', methods=['POST'])
+@login_required
+def deleteComposer():
+    composer = Composer.query.filter_by(id=request.json['id']).first()
+
+    if not composer:
+        response = jsonify(message="Couldn't find composer")
+        response.status_code = 401
+        return response
+    
+    db.session.delete(composer)
+    db.session.commit()
+   
+    response = jsonify(message="Deleted composer %s"%composer.name)
     response.status_code = 200
     return response
         
