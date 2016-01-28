@@ -11,12 +11,18 @@ class Composer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     dateOfBirth = db.Column(db.Date, nullable=False)
-    dateOfDeath = db.Column(db.Date, nullable=False)
+    dateOfDeath = db.Column(db.Date)
     musicItems = db.relationship("MusicItem")
     
     def to_json(self):
-        return dict(id=self.id, name=self.name, dateOfBirth=str(self.dateOfBirth),
-                    dateOfDeath=str(self.dateOfDeath))
+        
+        if self.dateOfDeath is None:
+            deathDate = "";
+        else:
+            deathDate = self.dateOfDeath.isoformat()
+             
+        return dict(id=self.id, name=self.name, dateOfBirth=self.dateOfBirth.isoformat(),
+                    dateOfDeath=deathDate)
    
 class Instrument(db.Model): 
     __tablename__ = "instrument"
