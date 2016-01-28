@@ -12,11 +12,13 @@ def setUp(self):
     composer2 = Composer(name="Rachmaninoff", dateOfBirth=today, dateOfDeath=today)
     composer3 = Composer(name="Prokovief", dateOfBirth=today, dateOfDeath=today)
     composer4 = Composer(name="Schubert", dateOfBirth=today, dateOfDeath=today)
+    composer5 = Composer(name="Glass", dateOfBirth=today)
      
     db.session.add(composer1)
     db.session.add(composer2)
     db.session.add(composer3)
     db.session.add(composer4)
+    db.session.add(composer5)
     db.session.commit()
  
     #create file objects where music item files will be stored
