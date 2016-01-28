@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('ComposerCtrl', function($state, $scope, $auth, toastr, API) {
+  .controller('ComposerCtrl', function($state, $scope, $auth, moment, toastr, API) {
 
 
 	// call the rest service to extract all of the composers
@@ -11,18 +11,21 @@ angular.module('MyApp')
           
           // convert the date strings into a date object
           for(var i = 0; i < $scope.response.composers.length; i++){
-            console.log($scope.response.composers[i].dateOfBirth);
-            $scope.response.composers[i].dateOfBirth = new Date($scope.response.composers[i].dateOfBirth); 
-            $scope.response.composers[i].dateOfDeath = new Date($scope.response.composers[i].dateOfDeath); 
+        	  
+            $scope.response.composers[i].dateOfBirth = new Date(moment($scope.response.composers[i].dateOfBirth).startOf('day'));
+            
+            if ($scope.response.composers[i].dateOfDeath.length > 0){
+            	$scope.response.composers[i].dateOfDeath = new Date(moment($scope.response.composers[i].dateOfDeath).startOf('day'));
+            }
           }
           
           // convert data into a 2D array to display in a grid with 2 columns
           // save the composer data into an array, indexed by composer id
-          if ($scope.response.composers.length > 10){
+          if ($scope.response.composers.length > 0){
         	  $scope.rows = [];
         	  var composers = [];
-        	  var maxRows = Math.ceil($scope.response.composers.length/2);
         	  var maxCols = 2;
+        	  var maxRows = Math.ceil($scope.response.composers.length/maxCols);
         	  var count = 0;
         	  for( var i = 0 ; i < maxRows;i++){
         		  $scope.rows.push([]);
@@ -37,6 +40,8 @@ angular.module('MyApp')
         		  }
           		}
           }
+          
+          console.log(composers);
           
           // save a copy of the original data in case the user presses cancel
           $scope.originalComposers = angular.copy(composers);
@@ -53,10 +58,10 @@ angular.module('MyApp')
       console.log("resetting composer back to original");
 	  console.log($scope.originalComposers);
 
-	  //reset details provided we can find them 
+	  // reset details provided we can find them
 	  if ( typeof($scope.originalComposers[composerID]) !== "undefined" && 
 			  $scope.originalComposers[composerID] !== null ) {
-		 //loop through the grid and find the right composer ID
+		 // loop through the grid and find the right composer ID
 		 for(var i = 0; i <  $scope.rows.length; i++){
 			 for(var k = 0; k < $scope.rows[i].length; k++){
 				 console.log("composerID " + $scope.rows[i][k].id);
@@ -70,9 +75,18 @@ angular.module('MyApp')
 	  }
     };
     
+    //reset the add composer form back to a pristine state
+    $scope.resetAddComposer = function(composerID) {
+        console.log("resetting add composer back to original");
+  		$scope.reset(composerID);
+  	    $scope.addComposerForm.$setPristine();
+    };
+    
+    
     // when submit button is pressed, update the particular edited composer
     $scope.updateComposer = function(composer) {
-    	console.log("Updating " + composer);
+    	console.log("Updating " + composer.name + " " + composer.dateOfBirth + " " + composer.dateOfDeath);
+    	
     	API.updateComposer(composer)
         .then(function(response) {
           toastr.success(response.data.message);
@@ -84,7 +98,8 @@ angular.module('MyApp')
     
     // when submit button is pressed, add the new composer
     $scope.addComposer = function(composer) {
-    	console.log("Adding " + composer);
+    	console.log("Adding " + composer.name + " " + composer.dateOfBirth + " " + composer.dateOfDeath);
+    	
     	API.addComposer(composer)
         .then(function(response) {     
           toastr.success(response.data.message);
@@ -110,4 +125,6 @@ angular.module('MyApp')
     
     // call the API function to retrieve all composers
     $scope.getComposers();
+    
+    
   });
