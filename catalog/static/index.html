@@ -15,11 +15,9 @@
 <body>
 <div ng-controller="NavbarCtrl" class="navbar navbar-default navbar-static-top">
   <div class="navbar-header">
-    <a class="navbar-brand" href="/"><i class="ion-bonfire"></i>TheCatalog</a>
+    <a class="navbar-brand" href="/#/"><i class="ion-bonfire"></i>TheCatalog</a>
   </div>
   <ul ng-if="isAuthenticated()" class="nav navbar-nav">
-    <li><a href="/#/">Home</a></li>
-    <li><a href="/#/profile">Profile</a></li>
     <li><a href="/#/composers">Composers</a></li>
     <li><a href="/#/logout">Logout</a></li>
   </ul>
@@ -47,15 +45,12 @@
 <script src="/app.js"></script>
 <script src="/directives/passwordStrength.js"></script>
 <script src="/directives/passwordMatch.js"></script>
-<script src="/directives/dateEntry.js"></script>
 <script src="/controllers/home.js"></script>
 <script src="/controllers/login.js"></script>
 <script src="/controllers/signup.js"></script>
 <script src="/controllers/logout.js"></script>
-<script src="/controllers/profile.js"></script>
 <script src="/controllers/composers.js"></script>
 <script src="/controllers/navbar.js"></script>
-<script src="/services/account.js"></script>
 <script src="/services/api.js"></script>
 </body>
 </html>
