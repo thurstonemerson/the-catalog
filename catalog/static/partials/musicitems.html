@@ -8,7 +8,7 @@
 		<div class="panel-body">
 
 			<form name="musicItemForm" class="form-horizontal" method="post"
-				novalidate>
+				ng-submit="updateMusicItem(musicitem)" novalidate>
 
 				<div class="form-group has-feedback"
 					ng-class="{'has-error' : musicItemForm.name.$invalid && musicItemForm.name.$dirty }">
@@ -65,7 +65,7 @@
 						class="ion-calendar"></i> Date of composition </label>
 					<div class="col-sm-3">
 						<input name="dateOfComposition" type="date" class="form-control"
-							ng-model="musicitem.dateOfComposition" required />
+							ng-model="musicitem.dateOfComposition"/>
 					</div>
 					<span class="form-control-feedback"></span>
 					<div class="help-block text-danger"
@@ -81,7 +81,7 @@
 						class="ion-calendar"></i> Date added </label>
 					<div class="col-sm-3">
 						<input name="dateAdded" type="date" class="form-control"
-							ng-model="musicitem.dateAdded" required />
+							ng-model="musicitem.dateAdded" />
 					</div>
 					<span class="form-control-feedback"></span>
 					<div class="help-block text-danger"

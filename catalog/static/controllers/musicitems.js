@@ -55,6 +55,19 @@ angular.module('MyApp')
 		  }
 	    };
 	    
+	    // when submit button is pressed, update the particular edited composer
+	    $scope.updateMusicItem = function(musicItem) {
+	    	console.log("Updating " + musicItem.name);
+	    	
+	    	API.updateMusicItem(musicItem)
+	        .then(function(response) {
+	          toastr.success(response.data.message);
+	        })
+	        .catch(function(response) {
+	          toastr.error(response.data.message, response.status);
+	        });
+	    };
+	    
 	    
 	    $state.composerID = $stateParams.composerID;
 	    $scope.getMusicItems($state.composerID);

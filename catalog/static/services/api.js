@@ -9,6 +9,9 @@ angular.module('MyApp').factory('API', function($http) {
 		updateComposer : function(composerData) {
 			return $http.post('/api/catalog/updatecomposer', composerData);
 		},
+		updateMusicItem : function(musicItemData) {
+			return $http.post('/api/catalog/updatemusicitem', musicItemData);
+		},
 		addComposer : function(composerData) {
 			return $http.post('/api/catalog/addcomposer', composerData);
 		},
