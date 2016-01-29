@@ -11,6 +11,7 @@ from catalog.core import db
 def index():
     return send_file(os.path.join(client_path, 'index.html'))
 
+
 @app.route('/api/catalog/composers/JSON')
 @login_required
 def allComposersJSON():
@@ -24,7 +25,7 @@ def composerJSON(composer_id):
     composer = Composer.query.filter_by(id=composer_id).first()
     return jsonify(composer.to_json())
 
-@app.route('/api/catalog/<int:composer_id>/musicitems/JSON')
+@app.route('/api/catalog/composer/<int:composer_id>/musicitems/JSON')
 @login_required
 def composerMusicItemsJSON(composer_id):
     composer = Composer.query.filter_by(id=composer_id).first()
