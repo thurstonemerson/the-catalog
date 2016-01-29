@@ -71,7 +71,9 @@
 	<div class="row" ng-repeat="cols in rows">
 		<div class="col-md-6" ng-repeat="composer in cols">
 			<div class="panel panel-default col-md-12">
-				<div class="panel-heading">{{composer.name}}</div>
+				<div class="panel-heading">
+				  <a href="/#/composers/{{composer.id}}">{{composer.name}}</a>
+				</div>
 
 				<div class="panel-body">
 

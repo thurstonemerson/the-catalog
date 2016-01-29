@@ -1,6 +1,5 @@
 angular.module('MyApp')
-  .controller('ComposerCtrl', function($state, $scope, $auth, moment, toastr, API) {
-
+  .controller('ComposerCtrl', function($state, $scope, moment, toastr, API) {
 
 	// call the rest service to extract all of the composers
     $scope.getComposers = function() {
@@ -67,8 +66,8 @@ angular.module('MyApp')
 				 console.log("composerID " + $scope.rows[i][k].id);
 				 if ($scope.rows[i][k].id === composerID){
 					 $scope.rows[i][k] = angular.copy( $scope.originalComposers[composerID]);
-					 return;
 					 console.log("found and reset composer " + composerID);
+					 return;
 				 }
 			   }
 			}

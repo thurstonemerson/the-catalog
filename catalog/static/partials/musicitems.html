@@ -1,0 +1,103 @@
+<div class="container">
+
+	<div class="panel panel-default"
+		ng-repeat="musicitem in response.musicItems">
+
+		<div class="panel-heading">{{ musicitem.name }}</div>
+
+		<div class="panel-body">
+
+			<form name="musicItemForm" class="form-horizontal" method="post"
+				novalidate>
+
+				<div class="form-group has-feedback"
+					ng-class="{'has-error' : musicItemForm.name.$invalid && musicItemForm.name.$dirty }">
+					<label class="col-sm-3 control-label">Name</label>
+					<div class="col-sm-5">
+						<input name="name" type="text" class="form-control"
+							ng-model="musicitem.name" ng-maxlength="120" required />
+					</div>
+					<span class="form-control-feedback"></span>
+					<div class="help-block text-danger"
+						ng-if="musicItemForm.name.$dirty"
+						ng-messages="musicItemForm.name.$error">
+						<div ng-message="required">Music item name is required</div>
+						<div ng-message="maxlength">Music item name must not be
+							longer than 120 characters.</div>
+					</div>
+				</div>
+
+				<div class="form-group has-feedback"
+					ng-class="{'has-error' : musicItemForm.number.$invalid && musicItemForm.number.$dirty }">
+					<label class="col-sm-3 control-label">Number</label>
+					<div class="col-sm-5">
+						<input name="number" type="text" class="form-control"
+							ng-model="musicitem.number" ng-maxlength="120" />
+					</div>
+					<span class="form-control-feedback"></span>
+					<div class="help-block text-danger"
+						ng-if="musicItemForm.number.$dirty"
+						ng-messages="musicItemForm.number.$error">
+						<div ng-message="maxlength">Music item number must not be
+							longer than 120 characters.</div>
+					</div>
+				</div>
+
+				<div class="form-group has-feedback"
+					ng-class="{'has-error' : musicItemForm.key.$invalid && musicItemForm.key.$dirty }">
+					<label class="col-sm-3 control-label">Key</label>
+					<div class="col-sm-5">
+						<input name="key" type="text" class="form-control"
+							ng-model="musicitem.key" ng-maxlength="120" />
+					</div>
+					<span class="form-control-feedback"></span>
+					<div class="help-block text-danger"
+						ng-if="musicItemForm.key.$dirty"
+						ng-messages="musicItemForm.key.$error">
+						<div ng-message="maxlength">Music item key must not be
+							longer than 120 characters.</div>
+					</div>
+				</div>
+
+				<div class="form-group has-feedback"
+					ng-class="{'has-error' : musicItemForm.dateOfComposition.$invalid && musicItemForm.dateOfComposition.$dirty }">
+					<label class="col-sm-3 control-label"><i
+						class="ion-calendar"></i> Date of composition </label>
+					<div class="col-sm-3">
+						<input name="dateOfComposition" type="date" class="form-control"
+							ng-model="musicitem.dateOfComposition" required />
+					</div>
+					<span class="form-control-feedback"></span>
+					<div class="help-block text-danger"
+						ng-if="musicItemForm.dateOfComposition.$dirty"
+						ng-messages="musicItemForm.dateOfComposition.$error">
+						<div ng-message="date">Date of composition is invalid</div>
+					</div>
+				</div>
+
+				<div class="form-group has-feedback"
+					ng-class="{'has-error' : musicItemForm.dateAdded.$invalid && musicItemForm.dateAdded.$dirty }">
+					<label class="col-sm-3 control-label"><i
+						class="ion-calendar"></i> Date added </label>
+					<div class="col-sm-3">
+						<input name="dateAdded" type="date" class="form-control"
+							ng-model="musicitem.dateAdded" required />
+					</div>
+					<span class="form-control-feedback"></span>
+					<div class="help-block text-danger"
+						ng-if="musicItemForm.dateAdded.$dirty"
+						ng-messages="musicItemForm.dateAdded.$error">
+						<div ng-message="date">Date added is invalid</div>
+					</div>
+				</div>
+
+				<button type="submit" class="col-sm-offset-3 btn btn-success"
+					ng-disabled="musicItemForm.$invalid">Update</button>
+				<button type="reset" ng-click="reset(musicitem.id)"
+					class="btn btn-info">Cancel</button>
+			</form>
+
+		</div>
+	</div>
+</div>
+

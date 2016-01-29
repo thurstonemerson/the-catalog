@@ -27,14 +27,6 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         template: null,
         controller: 'LogoutCtrl'
       })
-      .state('profile', {
-        url: '/profile',
-        templateUrl: 'partials/profile.html',
-        controller: 'ProfileCtrl',
-        resolve: {
-          loginRequired: loginRequired
-        }
-      })
       .state('composers', {
           url: '/composers',
           templateUrl: 'partials/composers.html',
@@ -42,6 +34,14 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
           resolve: {
             loginRequired: loginRequired
           }
+       })
+      .state('musicitems', {
+          url: '/composers/:composerID',
+          templateUrl: 'partials/musicitems.html',
+          controller: 'MusicItemsCtrl',
+          resolve: {
+              loginRequired: loginRequired
+            }
         });
 
     $urlRouterProvider.otherwise('/');
