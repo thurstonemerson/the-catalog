@@ -54,7 +54,18 @@ class MusicItem(db.Model):
     files = db.relationship(MusicFile)
     
     def to_json(self):
+        
+        if self.dateAdded is None:
+            dateAdded = "";
+        else:
+            dateAdded = self.dateAdded.isoformat()
+            
+        if self.dateOfComposition is None:
+            dateOfComposition = "";
+        else:
+            dateOfComposition = self.dateAdded.isoformat()
+        
         return dict(id=self.id, name=self.name, number=self.number,
-                    key=self.key, dateAdded=str(self.dateAdded), dateOfComposition=str(self.dateOfComposition))
+                    key=self.key, dateAdded=dateAdded, dateOfComposition=dateOfComposition)
     
 
