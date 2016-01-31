@@ -82,6 +82,27 @@ def addComposer():
     response.status_code = 200
     return response
 
+@app.route('/api/catalog/composer/<int:composer_id>/addmusicitem', methods=['POST'])
+@login_required
+def addMusicItem(composer_id):
+    
+    composer = Composer.query.filter_by(id=composer_id).first()
+    
+    if not composer:
+        response = jsonify(message="Couldn't find composer")
+        response.status_code = 401
+        return response
+    
+    musicItem = MusicItem(name=request.json['name'], number=request.json['number'], key=request.json['key'], dateOfComposition=request.json['dateOfComposition'], dateAdded=request.json['dateAdded'])
+    musicItem.composer = composer
+
+    db.session.add(musicItem)
+    db.session.commit()
+       
+    response = jsonify(message="Added music item %s"%musicItem.name)
+    response.status_code = 200
+    return response
+
 @app.route('/api/catalog/deletecomposer', methods=['POST'])
 @login_required
 def deleteComposer():

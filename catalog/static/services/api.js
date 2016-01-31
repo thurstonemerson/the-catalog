@@ -15,8 +15,14 @@ angular.module('MyApp').factory('API', function($http) {
 		addComposer : function(composerData) {
 			return $http.post('/api/catalog/addcomposer', composerData);
 		},
+		addMusicItem : function(composerID, musicItemData) {
+			return $http.post('/api/catalog/composer/' + composerID + '/addmusicitem', musicItemData);
+		},
 		deleteComposer : function(composerData) {
 			return $http.post('/api/catalog/deletecomposer', composerData);
+		},
+		deleteMusicItem : function(musicItemData) {
+			return $http.post('/api/catalog/deletemusicitem', musicItemData);
 		}
 	};
 });
