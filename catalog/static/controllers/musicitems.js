@@ -55,6 +55,14 @@ angular.module('MyApp')
 		  }
 	    };
 	    
+	    //reset the add composer form back to a pristine state
+	    $scope.resetAddMusicItem = function(musicItemID) {
+	        console.log("resetting add music item form back to original");
+	  		$scope.reset(musicItemID);
+	  	    $scope.addMusicItemForm.$setPristine();
+	    };
+	    
+	    
 	    // when submit button is pressed, update the particular edited composer
 	    $scope.updateMusicItem = function(musicItem) {
 	    	console.log("Updating " + musicItem.name);
