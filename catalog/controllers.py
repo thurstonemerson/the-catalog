@@ -119,6 +119,23 @@ def deleteComposer():
     response = jsonify(message="Deleted composer %s"%composer.name)
     response.status_code = 200
     return response
+
+@app.route('/api/catalog/deletemusicitem', methods=['POST'])
+@login_required
+def deleteMusicItem():
+    musicItem = MusicItem.query.filter_by(id=request.json['id']).first()
+
+    if not musicItem:
+        response = jsonify(message="Couldn't find music item")
+        response.status_code = 401
+        return response
+    
+    db.session.delete(musicItem)
+    db.session.commit()
+   
+    response = jsonify(message="Deleted music item %s"%musicItem.name)
+    response.status_code = 200
+    return response
         
 #     user = User(email=request.json['email'], password=request.json['password'])
 #     db.session.add(user)

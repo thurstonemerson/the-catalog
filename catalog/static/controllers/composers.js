@@ -109,7 +109,7 @@ angular.module('MyApp')
         });
      };
     
-    // when submit button is pressed, delete the new composer
+    // when submit button is pressed, delete the composer
     $scope.deleteComposer = function(composer) {
     	console.log("Deleting " + composer);
     	API.deleteComposer(composer)

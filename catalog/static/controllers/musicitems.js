@@ -90,6 +90,19 @@ angular.module('MyApp')
 	        });
 	    };
 	    
+	    // when submit button is pressed, delete the music item
+	    $scope.deleteMusicItem = function(musicItem) {
+	    	console.log("Deleting " + musicItem);
+	    	API.deleteMusicItem(musicItem)
+	    	.then(function(response) {
+	    		toastr.success(response.data.message);
+	            $state.reload();
+	    	})
+	    	.catch(function(response) {
+	    		toastr.error(response.data.message, response.status);
+	    	});
+	    };
+	    
 	    
 	    $state.composerID = $stateParams.composerID;
 	    $scope.getMusicItems($state.composerID);
