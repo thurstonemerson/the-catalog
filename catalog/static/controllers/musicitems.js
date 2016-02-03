@@ -1,6 +1,6 @@
 angular.module('MyApp')
   .controller('MusicItemsCtrl', function($state, $scope, $stateParams, moment, toastr, API) {
-	
+	  
 	// call the rest service to extract all of the composers
 	    $scope.getMusicItems = function(composerID) {
 	      API.getMusicItems(composerID)
@@ -25,7 +25,8 @@ angular.module('MyApp')
 	            musicItems[$scope.response.musicItems[i].id] = $scope.response.musicItems[i];
 	          }
 	          
-	          // save a copy of the original data in case the user presses cancel
+	          // save a copy of the original data in case the user presses
+				// cancel
 	          $scope.originalMusicItems = angular.copy(musicItems);
 	          
 	          console.log($scope.response.musicItems);
@@ -42,8 +43,8 @@ angular.module('MyApp')
 		  console.log($scope.originalMusicItems);
 
 		  // reset details provided we can find them
-		  if ( typeof($scope.originalMusicItems[musicItemID]) !== "undefined" && 
-				  $scope.originalMusicItems[musicItemID] !== null ) {
+		  if ( $scope.originalMusicItems[musicItemID] != undefined && 
+				  $scope.originalMusicItems[musicItemID] != null ) {
 			 
 	          for(var i = 0; i < $scope.response.musicItems.length; i++){
 	        	  if ($scope.response.musicItems[i].id === musicItemID){
@@ -55,15 +56,36 @@ angular.module('MyApp')
 		  }
 	    };
 	    
-	    //reset the add composer form back to a pristine state
+	    // reset the add composer form back to a pristine state
 	    $scope.resetAddMusicItem = function(musicItemID) {
 	        console.log("resetting add music item form back to original");
 	  		$scope.reset(musicItemID);
 	  	    $scope.addMusicItemForm.$setPristine();
 	    };
 	    
+	    //when delete button is pressed, delete the file from the database
+	    $scope.deleteMusicFile = function(musicItem, file) {
+	    	console.log("Deleting " + file.path);
+	    };
 	    
-	    // when submit button is pressed, update the particular edited composer
+	    // when submit button is pressed, upload the selected file
+	    $scope.uploadMusicFile = function(musicItem, uploadfile) {
+	    	if (uploadfile != null && uploadfile != undefined){   		
+	    		console.log("Uploading " + uploadfile.name);
+	    		API.uploadFile(uploadfile, musicItem)
+		        .then(function(response) {
+		          toastr.success(response.data.message);
+		          $state.reload();
+		        })
+		        .catch(function(response) {
+		          toastr.error(response.data.message, response.status);
+		        });
+	    	} else {
+	    		 toastr.error("Enter a file to upload");
+	    	}
+	    };
+	    
+	    // when submit button is pressed, update the particular edited music item
 	    $scope.updateMusicItem = function(musicItem) {
 	    	console.log("Updating " + musicItem.name);
 	    	

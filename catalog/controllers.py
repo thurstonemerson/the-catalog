@@ -3,13 +3,45 @@ import os
 from flask import send_file, jsonify, request
 from catalog import app, client_path
 from catalog.authentication.controllers import login_required
-from catalog.models import Composer, MusicItem
+from catalog.models import Composer, MusicItem, MusicFile
 from catalog.core import db
+from werkzeug import secure_filename
+
 
 # Route
 @app.route('/')
 def index():
     return send_file(os.path.join(client_path, 'index.html'))
+
+
+@app.route('/api/catalog/uploadfile', methods=['POST'])
+@login_required
+def uploadFile():
+    uploadFile = request.files['file']
+        
+    if uploadFile:
+        filename = secure_filename(uploadFile.filename)
+        uploadFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        musicItem = MusicItem.query.filter_by(id=request.form['id']).first()
+  
+        if not musicItem:
+            response = jsonify(message="Couldn't find music item")
+            response.status_code = 401
+            return response
+       
+        musicFile = MusicFile(path=filename)
+        musicFile.music_item = musicItem
+        db.session.add(musicFile)
+        db.session.commit()
+        
+        response = jsonify(message="File has been saved %s"% filename)
+        response.status_code = 200
+        return response
+         
+    response = jsonify(message="File could not be saved")
+    response.status_code = 500
+    return response
 
 
 @app.route('/api/catalog/composers/JSON')
@@ -53,20 +85,21 @@ def updateComposer():
 @app.route('/api/catalog/updatemusicitem', methods=['POST'])
 @login_required
 def updateMusicItem():
+    
     musicItem = MusicItem.query.filter_by(id=request.json['id']).first()
-
+ 
     if not musicItem:
         response = jsonify(message="Couldn't find music item")
         response.status_code = 401
         return response
-    
+     
     musicItem.name = request.json['name']
     musicItem.dateAdded = request.json['dateAdded']
     musicItem.dateOfComposition = request.json['dateOfComposition']
     musicItem.number = request.json['number'] 
     musicItem.key = request.json['key']
     db.session.commit()
-    
+
     response = jsonify(message="Music item %s updated"% musicItem.name)
     response.status_code = 200
     return response

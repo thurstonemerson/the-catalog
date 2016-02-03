@@ -36,6 +36,9 @@ class MusicFile(db.Model):
     musicitem_id = db.Column(db.Integer, db.ForeignKey('music_item.id'))
     music_item = db.relationship("MusicItem")
     
+    def to_json(self):
+        return dict(id=self.id, path=self.path)
+    
 musicitem_instruments = db.Table('musicitem_instruments', 
     db.Column('musicitem_id', db.Integer, db.ForeignKey('music_item.id')),
     db.Column('instrument_id', db.Integer, db.ForeignKey('instrument.id')))
@@ -66,6 +69,7 @@ class MusicItem(db.Model):
             dateOfComposition = self.dateAdded.isoformat()
         
         return dict(id=self.id, name=self.name, number=self.number,
-                    key=self.key, dateAdded=dateAdded, dateOfComposition=dateOfComposition)
+                    key=self.key, dateAdded=dateAdded, dateOfComposition=dateOfComposition,
+                    files=[f.to_json() for f in self.files])
     
 

@@ -7,7 +7,7 @@
 		<div class="panel-body">
 
 			<form name="addMusicItemForm" class="form-horizontal" method="post"
-				ng-submit="addMusicItem(musicitem)" novalidate>
+				ng-submit="addMusicItem(musicitem, uploadfile)" novalidate>
 
 				<div class="form-group has-feedback"
 					ng-class="{'has-error' : addMusicItemForm.name.$invalid && addMusicItemForm.name.$dirty }">
@@ -55,6 +55,21 @@
 						ng-messages="addMusicItemForm.key.$error">
 						<div ng-message="maxlength">Music item key must not be
 							longer than 120 characters.</div>
+					</div>
+				</div>
+
+				<div class="form-group has-feedback">
+					<label class="col-sm-3 control-label"><i
+						class="ion-document"></i> File </label>
+					<div class="col-sm-4">
+						<input type="text" ng-model="uploadfile.name" class="form-control"
+							readonly>
+					</div>
+
+					<div class="col-sm-1">
+						<span class="btn btn-info btn-file"> Add&hellip; <input
+							type="file" file-change ng-model="uploadfile">
+						</span>
 					</div>
 				</div>
 
@@ -131,7 +146,8 @@
 
 				<div class="form-group has-feedback"
 					ng-class="{'has-error' : musicItemForm.number.$invalid && musicItemForm.number.$dirty }">
-					<label class="col-sm-3 control-label">Number</label>
+					<label class="col-sm-3 control-label"><i
+						class="ion-asterisk"></i> Number</label>
 					<div class="col-sm-5">
 						<input name="number" type="text" class="form-control"
 							ng-model="musicitem.number" ng-maxlength="120" />
@@ -147,7 +163,8 @@
 
 				<div class="form-group has-feedback"
 					ng-class="{'has-error' : musicItemForm.key.$invalid && musicItemForm.key.$dirty }">
-					<label class="col-sm-3 control-label">Key</label>
+					<label class="col-sm-3 control-label"><i
+						class="ion-music-note"></i> Key</label>
 					<div class="col-sm-5">
 						<input name="key" type="text" class="form-control"
 							ng-model="musicitem.key" ng-maxlength="120" />
@@ -160,6 +177,39 @@
 							longer than 120 characters.</div>
 					</div>
 				</div>
+
+				<div class="form-group has-feedback"
+					ng-repeat="file in musicitem.files">
+					<label class="col-sm-3 control-label"><i
+						class="ion-document"></i> File </label>
+
+					<div class="col-sm-6">
+						<input type="text" ng-model="file.path" class="form-control"
+							readonly>
+					</div>
+					<div class="col-sm-1">
+						<button type="button" ng-click="deleteMusicFile(musicitem, file)" class="btn btn-primary">Delete</button>
+					</div>
+				</div>
+
+				<div class="form-group has-feedback">
+					<label class="col-sm-3 control-label"><i
+						class="ion-document"></i> File </label>
+
+					<div class="col-sm-5">
+						<input type="text" ng-model="uploadfile.name" class="form-control"
+							readonly>
+					</div>
+					<div class="col-sm-1">
+						<span class="btn btn-info btn-file"> Browse&hellip; <input
+							type="file" file-change ng-model="uploadfile">
+						</span>
+					</div>
+					<div class="col-sm-1">
+						<button type="button" ng-click="uploadMusicFile(musicitem, uploadfile)" class="btn btn-success">Upload</button>
+					</div>
+				</div>
+
 
 				<div class="form-group has-feedback"
 					ng-class="{'has-error' : musicItemForm.dateOfComposition.$invalid && musicItemForm.dateOfComposition.$dirty }">

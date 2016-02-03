@@ -16,6 +16,7 @@ app = Flask(__name__, static_url_path='', static_folder=client_path)
 
 # Configurations
 app.config.from_object('config')
+app.config['UPLOAD_FOLDER'] = 'files'
 
 # Define the database object which is imported
 # by modules and controllers

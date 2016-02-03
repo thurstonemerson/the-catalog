@@ -29,8 +29,8 @@ angular.module('MyApp')
         	  for( var i = 0 ; i < maxRows;i++){
         		  $scope.rows.push([]);
         		  for( var j = 0 ; j < maxCols;j++){
-        			  if ( typeof($scope.response.composers[count]) !== "undefined" && 
-        					  $scope.response.composers[count] !== null ) {
+        			  if ( $scope.response.composers[count] != undefined && 
+        					  $scope.response.composers[count] != null ) {
         				  $scope.rows[i][j] = $scope.response.composers[count];
         				  composers[$scope.response.composers[count].id] = $scope.response.composers[count];
         				  console.log("$scope.rows["+i+"]["+j+"]="+$scope.rows[i][j]);
@@ -58,8 +58,8 @@ angular.module('MyApp')
 	  console.log($scope.originalComposers);
 
 	  // reset details provided we can find them
-	  if ( typeof($scope.originalComposers[composerID]) !== "undefined" && 
-			  $scope.originalComposers[composerID] !== null ) {
+	  if ( $scope.originalComposers[composerID] != undefined && 
+			  $scope.originalComposers[composerID] != null ) {
 		 // loop through the grid and find the right composer ID
 		 for(var i = 0; i <  $scope.rows.length; i++){
 			 for(var k = 0; k < $scope.rows[i].length; k++){
