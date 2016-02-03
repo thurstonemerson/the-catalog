@@ -72,6 +72,15 @@ angular.module('MyApp')
 	    $scope.uploadMusicFile = function(musicItem, uploadfile) {
 	    	if (uploadfile != null && uploadfile != undefined){   		
 	    		console.log("Uploading " + uploadfile.name);
+	    		
+	    		//check that the file to upload isn't too big
+		    	if (uploadfile != undefined && uploadfile != null){
+		    		if (!checkFileSize(uploadfile)){
+		    			toastr.error(uploadfile.name + " is larger than 2MB");
+		    			return;
+		    		}
+		    	}
+	    		
 	    		API.uploadFile(uploadfile, musicItem)
 		        .then(function(response) {
 		          toastr.success(response.data.message);
@@ -99,10 +108,28 @@ angular.module('MyApp')
 	    };
 	    
 	    // when submit button is pressed, update the particular edited composer
-	    $scope.addMusicItem = function(musicItem) {
+	    $scope.addMusicItem = function(musicItem, uploadFile) {
 	    	console.log("Adding " + musicItem.name);
 	    	
-	    	API.addMusicItem($state.composerID, musicItem)
+	    	//Set some default values for number and key so that we can
+	    	//more easily parse them at the server end
+	    	if (musicItem.number == undefined || musicItem.number == null){
+	    		musicItem.number = "";
+	    	}
+	    	
+	    	if (musicItem.key == undefined || musicItem.key == null){
+	    		musicItem.key = "";
+	    	}
+	    	
+	    	//check that the file to upload isn't too big
+	    	if (uploadFile != undefined && uploadFile != null){
+	    		if (!checkFileSize(uploadFile)){
+	    			toastr.error(uploadFile.name + " is larger than 2MB");
+	    			return;
+	    		}
+	    	}
+	    	
+	    	API.addMusicItem($state.composerID, musicItem, uploadFile)
 	        .then(function(response) {
 	          toastr.success(response.data.message);
 	          $state.reload();
@@ -124,6 +151,17 @@ angular.module('MyApp')
 	    		toastr.error(response.data.message, response.status);
 	    	});
 	    };
+	    
+	    //check that an input file is not larger than 2 MB
+	    function checkFileSize(file){
+	    	var fileSize = file.size; // in bytes
+	    	var maxSize = ((Math.pow(1024, 2))*2); //maxsize is 2 MB
+	    	console.log('max size is  ' + maxSize + ' bytes');
+	    	if(fileSize > maxSize){
+	    		return false;
+	    	}
+	    	return true;
+        }
 	    
 	    
 	    $state.composerID = $stateParams.composerID;

@@ -1,4 +1,5 @@
 import os
+import json
 
 from flask import send_file, jsonify, request
 from catalog import app, client_path
@@ -8,6 +9,24 @@ from catalog.core import db
 from werkzeug import secure_filename
 
 
+def createMusicFile(musicItem, filename):
+    musicFile = MusicFile(path=filename)
+    musicFile.music_item = musicItem
+    db.session.add(musicFile)
+    db.session.commit()
+    
+def createMusicItem(name, number, key, dateOfComposition, dateAdded, composer):
+    musicItem = MusicItem(name=name, number=number, key=key, dateOfComposition=dateOfComposition, dateAdded=dateAdded)
+    musicItem.composer = composer
+    db.session.add(musicItem)
+    db.session.commit()
+    return musicItem
+
+def uploadFileToServer(uploadFile, musicItem):
+    filename = secure_filename(uploadFile.filename)
+    uploadFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return filename
+
 # Route
 @app.route('/')
 def index():
@@ -16,24 +35,20 @@ def index():
 
 @app.route('/api/catalog/uploadfile', methods=['POST'])
 @login_required
-def uploadFile():
+def uploadFileToMusicItem():
     uploadFile = request.files['file']
-        
+    
     if uploadFile:
-        filename = secure_filename(uploadFile.filename)
-        uploadFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         
         musicItem = MusicItem.query.filter_by(id=request.form['id']).first()
-  
+        
         if not musicItem:
             response = jsonify(message="Couldn't find music item")
             response.status_code = 401
             return response
-       
-        musicFile = MusicFile(path=filename)
-        musicFile.music_item = musicItem
-        db.session.add(musicFile)
-        db.session.commit()
+         
+        filename = uploadFileToServer(uploadFile, musicItem)
+        createMusicFile(musicItem, filename)
         
         response = jsonify(message="File has been saved %s"% filename)
         response.status_code = 200
@@ -115,9 +130,16 @@ def addComposer():
     response.status_code = 200
     return response
 
-@app.route('/api/catalog/composer/<int:composer_id>/addmusicitem', methods=['POST'])
+@app.route('/api/catalog/addmusicitem', methods=['POST'])
 @login_required
-def addMusicItem(composer_id):
+def addMusicItem():
+    
+    print request.form['composer_id']
+    composer_id = request.form['composer_id']
+    
+    print request.form['music_item']
+    musicItemData = json.loads(request.form['music_item'])
+    print musicItemData
     
     composer = Composer.query.filter_by(id=composer_id).first()
     
@@ -126,12 +148,16 @@ def addMusicItem(composer_id):
         response.status_code = 401
         return response
     
-    musicItem = MusicItem(name=request.json['name'], number=request.json['number'], key=request.json['key'], dateOfComposition=request.json['dateOfComposition'], dateAdded=request.json['dateAdded'])
-    musicItem.composer = composer
+    musicItem = createMusicItem(name=musicItemData['name'], number=musicItemData['number'], key=musicItemData['key'], dateOfComposition=musicItemData['dateOfComposition'], dateAdded=musicItemData['dateAdded'], composer=composer)
+  
+    if 'file' in request.files:
+        uploadFile = request.files['file']
+        filepath = uploadFileToServer(uploadFile, musicItem)
+        createMusicFile(musicItem, filepath)
+        print "after upload file"
+    else:
+        print "no file to upload"
 
-    db.session.add(musicItem)
-    db.session.commit()
-       
     response = jsonify(message="Added music item %s"%musicItem.name)
     response.status_code = 200
     return response

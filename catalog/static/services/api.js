@@ -43,9 +43,28 @@ angular.module('MyApp')
 						},
 						addMusicItem : function(composerID, musicItemData,
 								uploadfile) {
-							return $http.post('/api/catalog/composer/'
-									+ composerID + '/addmusicitem',
-									musicItemData, config);
+							
+							// create form data object
+							var formData = new FormData();
+							formData.append('composer_id', composerID);
+							formData.append('music_item', angular.toJson(musicItemData));
+							
+							if (uploadfile != undefined && uploadfile != null){
+								formData.append('file', uploadfile);
+							} 
+							
+							console.log(angular.toJson(musicItemData));
+							// send the file / data to your server
+							return $http.post('/api/catalog/addmusicitem', formData, {
+								transformRequest : angular.identity,
+								headers : {
+									'Content-Type' : undefined
+								}
+							});
+							
+//							return $http.post('/api/catalog/composer/'
+//									+ composerID + '/addmusicitem',
+//									musicItemData, config);
 						},
 						deleteComposer : function(composerData) {
 							return $http.post('/api/catalog/deletecomposer',
