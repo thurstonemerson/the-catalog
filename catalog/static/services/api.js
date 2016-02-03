@@ -61,10 +61,6 @@ angular.module('MyApp')
 									'Content-Type' : undefined
 								}
 							});
-							
-//							return $http.post('/api/catalog/composer/'
-//									+ composerID + '/addmusicitem',
-//									musicItemData, config);
 						},
 						deleteComposer : function(composerData) {
 							return $http.post('/api/catalog/deletecomposer',
@@ -74,9 +70,10 @@ angular.module('MyApp')
 							return $http.post('/api/catalog/deletemusicitem',
 									musicItemData);
 						},
-						deleteMusicFile : function(musicItemData) {
-//							return $http.post('/api/catalog/deletemusicfile',
-//									musicItemData);
+						deleteMusicFile : function(musicFileData) {
+							
+							return $http.post('/api/catalog/deletemusicfile',
+									musicFileData);
 						}
 					};
 				});

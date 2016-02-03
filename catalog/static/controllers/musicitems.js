@@ -64,8 +64,20 @@ angular.module('MyApp')
 	    };
 	    
 	    //when delete button is pressed, delete the file from the database
-	    $scope.deleteMusicFile = function(musicItem, file) {
+	    $scope.deleteMusicFile = function(file) {
 	    	console.log("Deleting " + file.path);
+	    	
+	    	var response = confirm("Are you sure you want to delete " + file.path + "?");
+	    	if (response == true) {
+	    		API.deleteMusicFile(file)
+		        .then(function(response) {
+		          toastr.success(response.data.message);
+		          $state.reload();
+		        })
+		        .catch(function(response) {
+		          toastr.error(response.data.message, response.status);
+		        });
+	    	} 
 	    };
 	    
 	    // when submit button is pressed, upload the selected file

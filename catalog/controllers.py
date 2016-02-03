@@ -8,7 +8,7 @@ from catalog.models import Composer, MusicItem, MusicFile
 from catalog.core import db
 from werkzeug import secure_filename
 
-
+#Helper functions
 def createMusicFile(musicItem, filename):
     musicFile = MusicFile(path=filename)
     musicFile.music_item = musicItem
@@ -27,9 +27,10 @@ def uploadFileToServer(uploadFile, musicItem):
     uploadFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return filename
 
-# Route
+#API Routes
 @app.route('/')
 def index():
+    #forward to angular routing
     return send_file(os.path.join(client_path, 'index.html'))
 
 
@@ -193,6 +194,23 @@ def deleteMusicItem():
     db.session.commit()
    
     response = jsonify(message="Deleted music item %s"%musicItem.name)
+    response.status_code = 200
+    return response
+
+@app.route('/api/catalog/deletemusicfile', methods=['POST'])
+@login_required
+def deleteMusicFile():
+    musicFile = MusicFile.query.filter_by(id=request.json['id']).first()
+
+    if not musicFile:
+        response = jsonify(message="Couldn't find music file")
+        response.status_code = 401
+        return response
+
+    db.session.delete(musicFile)
+    db.session.commit()
+   
+    response = jsonify(message="Deleted music file %s"%musicFile.path)
     response.status_code = 200
     return response
         

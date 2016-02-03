@@ -7,7 +7,7 @@
 		<div class="panel-body">
 
 			<form name="addMusicItemForm" class="form-horizontal" method="post"
-				ng-submit="addMusicItem(musicitem, uploadfile)" novalidate>
+				ng-submit="addMusicItem(musicitem, uploadfileadd)" novalidate>
 
 				<div class="form-group has-feedback"
 					ng-class="{'has-error' : addMusicItemForm.name.$invalid && addMusicItemForm.name.$dirty }">
@@ -28,7 +28,8 @@
 
 				<div class="form-group has-feedback"
 					ng-class="{'has-error' : addMusicItemForm.number.$invalid && addMusicItemForm.number.$dirty }">
-					<label class="col-sm-3 control-label">Number</label>
+					<label class="col-sm-3 control-label"><i
+						class="ion-asterisk"></i> Number</label>
 					<div class="col-sm-5">
 						<input name="number" type="text" class="form-control"
 							ng-model="musicitem.number" ng-maxlength="120" />
@@ -44,7 +45,8 @@
 
 				<div class="form-group has-feedback"
 					ng-class="{'has-error' : addMusicItemForm.key.$invalid && addMusicItemForm.key.$dirty }">
-					<label class="col-sm-3 control-label">Key</label>
+					<label class="col-sm-3 control-label"><i
+						class="ion-music-note"></i> Key</label>
 					<div class="col-sm-5">
 						<input name="key" type="text" class="form-control" 
 							ng-model="musicitem.key" ng-maxlength="120" />
@@ -61,14 +63,13 @@
 				<div class="form-group has-feedback">
 					<label class="col-sm-3 control-label"><i
 						class="ion-document"></i> File </label>
-					<div class="col-sm-4">
-						<input type="text" ng-model="uploadfile.name" class="form-control"
+					<div class="col-sm-5">
+						<input type="text" ng-model="uploadfileadd.name" class="form-control"
 							readonly>
 					</div>
-
 					<div class="col-sm-1">
-						<span class="btn btn-info btn-file"> Add&hellip; <input
-							type="file" file-change ng-model="uploadfile">
+						<span class="btn btn-info btn-file"> Browse&hellip; <input
+							type="file" file-change ng-model="uploadfileadd">
 						</span>
 					</div>
 				</div>
@@ -188,7 +189,7 @@
 							readonly>
 					</div>
 					<div class="col-sm-1">
-						<button type="button" ng-click="deleteMusicFile(musicitem, file)" class="btn btn-primary">Delete</button>
+						<button type="button" ng-click="deleteMusicFile(file)" class="btn btn-primary">Delete</button>
 					</div>
 				</div>
 
