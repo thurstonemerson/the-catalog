@@ -4,6 +4,7 @@ Created on 14/01/2016
 @author: Jessica
 '''
 from catalog.core import db
+from authentication.models import User
 import datetime
 
 class Composer(db.Model): 
@@ -13,6 +14,8 @@ class Composer(db.Model):
     dateOfBirth = db.Column(db.Date, nullable=False)
     dateOfDeath = db.Column(db.Date)
     musicItems = db.relationship("MusicItem")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship(User)
     
     def to_json(self):
         
@@ -35,6 +38,8 @@ class MusicFile(db.Model):
     path = db.Column(db.String(120), nullable=False)
     musicitem_id = db.Column(db.Integer, db.ForeignKey('music_item.id'))
     music_item = db.relationship("MusicItem")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship(User)
     
     def to_json(self):
         return dict(id=self.id, path=self.path)
@@ -55,6 +60,8 @@ class MusicItem(db.Model):
     composer = db.relationship(Composer)
     instruments = db.relationship(Instrument, secondary=musicitem_instruments)
     files = db.relationship(MusicFile)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship(User)
     
     def to_json(self):
         

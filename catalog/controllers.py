@@ -3,7 +3,7 @@ import json
 
 from flask import send_file, jsonify, request
 from catalog import app, client_path
-from catalog.authentication.controllers import login_required
+from catalog.authentication.controllers import login_required, getUser
 from catalog.models import Composer, MusicItem, MusicFile
 from catalog.core import db
 from werkzeug import secure_filename
@@ -15,8 +15,8 @@ def createMusicFile(musicItem, filename):
     db.session.add(musicFile)
     db.session.commit()
     
-def createMusicItem(name, number, key, dateOfComposition, dateAdded, composer):
-    musicItem = MusicItem(name=name, number=number, key=key, dateOfComposition=dateOfComposition, dateAdded=dateAdded)
+def createMusicItem(user_id, name, number, key, dateOfComposition, dateAdded, composer):
+    musicItem = MusicItem(user_id=user_id, name=name, number=number, key=key, dateOfComposition=dateOfComposition, dateAdded=dateAdded)
     musicItem.composer = composer
     db.session.add(musicItem)
     db.session.commit()
@@ -63,20 +63,23 @@ def uploadFileToMusicItem():
 @app.route('/api/catalog/composers/JSON')
 @login_required
 def allComposersJSON():
-    composers = Composer.query.order_by(Composer.name).all()
+    user = getUser()
+    composers = Composer.query.filter_by(user_id=user.id).order_by(Composer.name).all()
     return jsonify(composers=[c.to_json() for c in composers])
 
 
-@app.route('/api/catalog/<int:composer_id>/JSON')
-@login_required
-def composerJSON(composer_id):
-    composer = Composer.query.filter_by(id=composer_id).first()
-    return jsonify(composer.to_json())
+#@app.route('/api/catalog/<int:composer_id>/JSON')
+#@login_required
+#def composerJSON(composer_id):
+#    user = getUser()
+#    composer = Composer.query.filter_by(id=composer_id, user_id=user.id).first()
+#    return jsonify(composer.to_json())
 
 @app.route('/api/catalog/composer/<int:composer_id>/musicitems/JSON')
 @login_required
 def composerMusicItemsJSON(composer_id):
-    composer = Composer.query.filter_by(id=composer_id).first()
+    user = getUser()
+    composer = Composer.query.filter_by(id=composer_id, user_id=user.id).first()
     return jsonify(musicItems=[i.to_json() for i in composer.musicItems])
 
 @app.route('/api/catalog/updatecomposer', methods=['POST'])
@@ -101,7 +104,6 @@ def updateComposer():
 @app.route('/api/catalog/updatemusicitem', methods=['POST'])
 @login_required
 def updateMusicItem():
-    
     musicItem = MusicItem.query.filter_by(id=request.json['id']).first()
  
     if not musicItem:
@@ -123,7 +125,8 @@ def updateMusicItem():
 @app.route('/api/catalog/addcomposer', methods=['POST'])
 @login_required
 def addComposer():
-    composer = Composer(name=request.json['name'], dateOfBirth=request.json['dateOfBirth'], dateOfDeath=request.json['dateOfDeath'])
+    user = getUser()
+    composer = Composer(user_id=user.id, name=request.json['name'], dateOfBirth=request.json['dateOfBirth'], dateOfDeath=request.json['dateOfDeath'])
     db.session.add(composer)
     db.session.commit()
    
@@ -135,27 +138,24 @@ def addComposer():
 @login_required
 def addMusicItem():
     
-    print request.form['composer_id']
+    user = getUser()
     composer_id = request.form['composer_id']
-    
-    print request.form['music_item']
     musicItemData = json.loads(request.form['music_item'])
-    print musicItemData
     
-    composer = Composer.query.filter_by(id=composer_id).first()
+    composer = Composer.query.filter_by(id=composer_id, user_id=user.id).first()
     
     if not composer:
         response = jsonify(message="Couldn't find composer")
         response.status_code = 401
         return response
     
-    musicItem = createMusicItem(name=musicItemData['name'], number=musicItemData['number'], key=musicItemData['key'], dateOfComposition=musicItemData['dateOfComposition'], dateAdded=musicItemData['dateAdded'], composer=composer)
+    musicItem = createMusicItem(user_id=user.id, name=musicItemData['name'], number=musicItemData['number'], key=musicItemData['key'], dateOfComposition=musicItemData['dateOfComposition'], dateAdded=musicItemData['dateAdded'], composer=composer)
   
     if 'file' in request.files:
         uploadFile = request.files['file']
         filepath = uploadFileToServer(uploadFile, musicItem)
         createMusicFile(musicItem, filepath)
-        print "after upload file"
+        print "uploading a file"
     else:
         print "no file to upload"
 

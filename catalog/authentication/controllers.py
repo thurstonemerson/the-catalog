@@ -25,11 +25,12 @@ authentication = Blueprint('auth', __name__, url_prefix='/auth')
 from catalog.authentication.models import User
 
 
+#create a json webtoken with an expiration date in one hours time
 def create_token(user):
     payload = {
         'sub': user.id,
         'iat': datetime.utcnow(),
-        'exp': datetime.utcnow() + timedelta(days=14)
+        'exp': datetime.utcnow() + timedelta(hours=1)
     }
     token = jwt.encode(payload, app.config['TOKEN_SECRET'])
     return token.decode('unicode_escape')
@@ -65,6 +66,10 @@ def login_required(f):
 
     return decorated_function
 
+# Helper functions
+def getUser():
+    user = User.query.filter_by(id=g.user_id).first()
+    return user
 
 # Routes
 

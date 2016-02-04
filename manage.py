@@ -1,18 +1,23 @@
 from catalog import app
 from catalog.models import db, MusicItem, Composer, Instrument, MusicFile
+from catalog.authentication.models import User
 import datetime
 
     
 '''Seed the database with test data'''
 def setUp(self):
+    
+    #create the users
+    user1 = User(email="jmt.emerson@gmail.com", password="cat", display_name="jessie")
+    user2 = User(email="jessica.thurston@gmail.com", password="dog", display_name="jessie")
  
     #create the composers
     today = datetime.date.today()
-    composer1 = Composer(name="Chopin", dateOfBirth=today, dateOfDeath=today)
-    composer2 = Composer(name="Rachmaninoff", dateOfBirth=today, dateOfDeath=today)
-    composer3 = Composer(name="Prokovief", dateOfBirth=today, dateOfDeath=today)
-    composer4 = Composer(name="Schubert", dateOfBirth=today, dateOfDeath=today)
-    composer5 = Composer(name="Glass", dateOfBirth=today)
+    composer1 = Composer(name="Chopin", dateOfBirth=today, dateOfDeath=today, user=user1)
+    composer2 = Composer(name="Rachmaninoff", dateOfBirth=today, dateOfDeath=today, user=user1)
+    composer3 = Composer(name="Prokovief", dateOfBirth=today, dateOfDeath=today, user=user1)
+    composer4 = Composer(name="Schubert", dateOfBirth=today, dateOfDeath=today, user=user2)
+    composer5 = Composer(name="Glass", dateOfBirth=today, user=user2)
      
     db.session.add(composer1)
     db.session.add(composer2)
@@ -36,9 +41,10 @@ def setUp(self):
     db.session.commit()
  
     #create each music item
-    musicitem1 = MusicItem(name='Nocturne', number='Op. 2, no. 3', key='C minor', composer=composer1)
-    musicitem2 = MusicItem(name='Nocturne', number='Op. 2, no. 4', key='C major', composer=composer1)
-    musicitem3 = MusicItem(name='Piano Trio', number='Op. 62, no. 1', key='D major', composer=composer2)
+    musicitem1 = MusicItem(name='Nocturne', number='Op. 2, no. 3', key='C minor', composer=composer1, user=user1)
+    musicitem2 = MusicItem(name='Nocturne', number='Op. 2, no. 4', key='C major', composer=composer1, user=user1)
+    musicitem3 = MusicItem(name='Piano Trio', number='Op. 62, no. 1', key='D major', composer=composer2, user=user1)
+    musicitem4 = MusicItem(name='Piano Trio', number='Op. 6090, no. 1', key='D major', composer=composer5, user=user2)
  
     #add instruments to the database
     instrument1 = Instrument(name='Piano')
