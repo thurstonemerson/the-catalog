@@ -21,9 +21,7 @@ from catalog import app
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 authentication = Blueprint('auth', __name__, url_prefix='/auth')
 
-# Import module models (i.e. User)
 from catalog.authentication.models import User
-
 
 #create a json webtoken with an expiration date in one hours time
 def create_token(user):
@@ -40,7 +38,7 @@ def parse_token(req):
     token = req.headers.get('Authorization').split()[1]
     return jwt.decode(token, app.config['TOKEN_SECRET'])
 
-
+#This function can be used as a decorator for routes that require the user to be logged in
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -66,12 +64,12 @@ def login_required(f):
 
     return decorated_function
 
-# Helper functions
+# Helper functions, get currently logged in user
 def getUser():
     user = User.query.filter_by(id=g.user_id).first()
     return user
 
-# Routes
+# Authentication routes
 
 @authentication.route('/me/JSON')
 @login_required
@@ -110,18 +108,17 @@ def facebook():
         'client_id': request.json['clientId'],
         'redirect_uri': request.json['redirectUri'],
         'client_secret': app.config['FACEBOOK_SECRET'],
-        'code': request.json['code']
+        'code': request.json['code'],
     }
 
     # Step 1. Exchange authorization code for access token.
     r = requests.get(access_token_url, params=params) 
-    access_token = dict(parse_qsl(r.text))
+    access_token = json.loads(r.text)
 
     # Step 2. Retrieve information about the current user.
     r = requests.get(graph_api_url, params=access_token)
     profile = json.loads(r.text)
     
-    print profile
 
     # Step 3. (optional) Link accounts.
     if request.headers.get('Authorization'):
@@ -156,8 +153,6 @@ def facebook():
     db.session.commit()
     token = create_token(u)
     return jsonify(token=token)
-
-
 
 
 @authentication.route('/google', methods=['POST'])
