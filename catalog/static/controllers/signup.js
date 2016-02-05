@@ -1,3 +1,4 @@
+//angular controller to handle a user signing up for the application
 angular.module('MyApp')
   .controller('SignupCtrl', function($scope, $location, $auth, toastr) {
     $scope.signup = function() {

@@ -1,29 +1,32 @@
+
+//Angular service calling the python rest API to perform CRUD operations
 angular.module('MyApp')
 		.factory('API',
 				function($http) {
 					return {
+						//get composers for currently logged in user
 						getComposers : function() {
 							return $http.get('/api/catalog/composers/JSON');
 						},
+						//get music items for currently logged in user
 						getMusicItems : function(composerID) {
 							return $http.get('/api/catalog/composer/'
 									+ composerID + '/musicitems/JSON');
 						},
+						//update a composer given an id
 						updateComposer : function(composerData) {
 							return $http.post('/api/catalog/updatecomposer',
 									composerData);
 						},
+						//upload file to server
 						uploadFile : function(uploadfile, musicItemData) {
-							console.log("calling upload file");
-
-							// create form data object
+							//using formdata objects to send JSON parameters
+							//and file objects to the server
 							var formData = new FormData();
 							formData.append('id', musicItemData.id);
 							formData.append('file', uploadfile);
-							
 							console.log(musicItemData.id);
 							
-							// send the file / data to your server
 							return $http.post('/api/catalog/uploadfile', formData, {
 								transformRequest : angular.identity,
 								headers : {
@@ -31,20 +34,21 @@ angular.module('MyApp')
 								}
 							});
 						},
+						//update a music item given an id
 						updateMusicItem : function(musicItemData) {
-							console.log("calling update music item");
-
 							return $http.post('/api/catalog/updatemusicitem',
 									musicItemData);
 						},
+						//add a composer for currently logged in user
 						addComposer : function(composerData) {
 							return $http.post('/api/catalog/addcomposer',
 									composerData);
 						},
+						//add a music item for currently logged in user
 						addMusicItem : function(composerID, musicItemData,
 								uploadfile) {
-							
-							// create form data object
+							//using formdata objects to send JSON parameters
+							//and file objects to the server
 							var formData = new FormData();
 							formData.append('composer_id', composerID);
 							formData.append('music_item', angular.toJson(musicItemData));
@@ -52,9 +56,7 @@ angular.module('MyApp')
 							if (uploadfile != undefined && uploadfile != null){
 								formData.append('file', uploadfile);
 							} 
-							
-							console.log(angular.toJson(musicItemData));
-							// send the file / data to your server
+			
 							return $http.post('/api/catalog/addmusicitem', formData, {
 								transformRequest : angular.identity,
 								headers : {
@@ -62,16 +64,18 @@ angular.module('MyApp')
 								}
 							});
 						},
+						//delete a composer given an id
 						deleteComposer : function(composerData) {
 							return $http.post('/api/catalog/deletecomposer',
 									composerData);
 						},
+						//delete a music item given an id
 						deleteMusicItem : function(musicItemData) {
 							return $http.post('/api/catalog/deletemusicitem',
 									musicItemData);
 						},
+						//delete a music file given an id
 						deleteMusicFile : function(musicFileData) {
-							
 							return $http.post('/api/catalog/deletemusicfile',
 									musicFileData);
 						}

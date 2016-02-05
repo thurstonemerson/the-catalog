@@ -1,3 +1,4 @@
+//Angular controller to handle user input in the composer screen
 angular.module('MyApp')
   .controller('ComposerCtrl', function($state, $scope, moment, toastr, API) {
 
@@ -33,14 +34,11 @@ angular.module('MyApp')
         					  $scope.response.composers[count] != null ) {
         				  $scope.rows[i][j] = $scope.response.composers[count];
         				  composers[$scope.response.composers[count].id] = $scope.response.composers[count];
-        				  console.log("$scope.rows["+i+"]["+j+"]="+$scope.rows[i][j]);
         				  count++;
         			  }
         		  }
           		}
           }
-          
-          console.log(composers);
           
           // save a copy of the original data in case the user presses cancel
           $scope.originalComposers = angular.copy(composers);
@@ -54,9 +52,6 @@ angular.module('MyApp')
     // if cancel button is pressed reset the composer details back to the
 	// original
     $scope.reset = function(composerID) {
-      console.log("resetting composer back to original");
-	  console.log($scope.originalComposers);
-
 	  // reset details provided we can find them
 	  if ( $scope.originalComposers[composerID] != undefined && 
 			  $scope.originalComposers[composerID] != null ) {
@@ -76,7 +71,6 @@ angular.module('MyApp')
     
     //reset the add composer form back to a pristine state
     $scope.resetAddComposer = function(composerID) {
-        console.log("resetting add composer back to original");
   		$scope.reset(composerID);
   	    $scope.addComposerForm.$setPristine();
     };
@@ -84,8 +78,6 @@ angular.module('MyApp')
     
     // when submit button is pressed, update the particular edited composer
     $scope.updateComposer = function(composer) {
-    	console.log("Updating " + composer.name + " " + composer.dateOfBirth + " " + composer.dateOfDeath);
-    	
     	API.updateComposer(composer)
         .then(function(response) {
           toastr.success(response.data.message);

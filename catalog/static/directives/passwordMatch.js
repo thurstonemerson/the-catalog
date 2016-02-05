@@ -1,3 +1,4 @@
+//angular directive to match password to one already given
 angular.module('MyApp')
   .directive('passwordMatch', function() {
     return {

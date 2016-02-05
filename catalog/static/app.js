@@ -1,5 +1,7 @@
+//Setup the angular module, injecting required services 
 angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer', 'angularMoment'])
 .config(function($stateProvider, $urlRouterProvider, $authProvider) {
+	//configuration for ui.router detailing where to find html templates etc
     $stateProvider
       .state('home', {
         url: '/',
@@ -44,6 +46,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
             }
         });
 
+    //setup parameters required for authentication
     $urlRouterProvider.otherwise('/');
 
     $authProvider.facebook({

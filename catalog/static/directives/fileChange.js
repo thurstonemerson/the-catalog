@@ -1,3 +1,5 @@
+//angular directive to fire an event when selecting files (angular does not 
+//bind to an HTML file object)
 angular.module('MyApp')
   .directive('fileChange', function() {
 	  return {
@@ -7,7 +9,6 @@ angular.module('MyApp')
 	            el.bind('change', function(event){
 	                var files = event.target.files;
 	                var file = files[0];
-	                console.log(file);
 	                ngModel.$setViewValue(file);
 	                $scope.$apply();
 	            });

@@ -3,10 +3,6 @@
 from flask import Flask, request, Response
 from flask import render_template, send_from_directory, url_for
 
-# Import SQLAlchemy and the API manager
-#from flask.ext.sqlalchemy import SQLAlchemy
-#from flask.ext.restless import APIManager
-
 # Define the WSGI application object
 import os
 current_path = os.path.dirname(__file__)
@@ -17,11 +13,6 @@ app = Flask(__name__, static_url_path='', static_folder=client_path)
 # Configurations
 app.config.from_object('config')
 app.config['UPLOAD_FOLDER'] = 'files'
-
-# Define the database object which is imported
-# by modules and controllers
-#db = SQLAlchemy(app)
-#api_manager = APIManager(app, flask_sqlalchemy_db=db)
 
 import catalog.core
 import catalog.controllers

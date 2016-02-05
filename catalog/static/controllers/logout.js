@@ -1,3 +1,4 @@
+//angular controller to handle signing out of the application
 angular.module('MyApp')
   .controller('LogoutCtrl', function($location, $auth, toastr) {
     if (!$auth.isAuthenticated()) { return; }

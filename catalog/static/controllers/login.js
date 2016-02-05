@@ -1,3 +1,4 @@
+//angular controller to handle logging into the application
 angular.module('MyApp')
   .controller('LoginCtrl', function($scope, $location, $auth, toastr) {
     $scope.login = function() {
