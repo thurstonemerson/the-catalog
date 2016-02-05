@@ -52,9 +52,9 @@ The client can be accessed through http://localhost:5000/
 
 ##Using the app
 
-First log into the app using via the log in screen [login!](files/examples/login.png)
+First log into the app using via the log in screen ()![Log in screenshot](files/examples/login.png)
 
-Successful login will show a success message [logged in!](files/examples/loggedin.png)
+Successful login will show a success message ![Logged in screenshot](files/examples/loggedin.png)
 
 If it is the first time logging into the application, you will need to create some 
 composers and music items.
