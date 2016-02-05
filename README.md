@@ -57,7 +57,7 @@ First log into the app using via the log in screen ![Log in screenshot](files/ex
 Successful login will show a success message ![Logged in screenshot](files/examples/loggedin.png)
 
 If it is the first time logging into the application, you will need to create some 
-composers and music items. ![Add composers screenshot](files/examples/addcomposers.png)
+composers and music items. ![Add composers screenshot](files/examples/addcomposer.png)
 
 Once you have added some composers, you can use the hyperlink in the composers name
 to navigate to a list of music items.
