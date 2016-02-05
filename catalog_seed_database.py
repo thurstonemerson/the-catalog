@@ -8,8 +8,8 @@ import datetime
 def setUp(self):
     
     #create the users
-    user1 = User(email="jmt.emerson@gmail.com", password="cat", display_name="jessie")
-    user2 = User(email="jessica.thurston@gmail.com", password="dog", display_name="jessie")
+    user1 = User(email="katja@gmail.com", password="cat", display_name="jessie")
+    user2 = User(email="louisa@gmail.com", password="dog", display_name="jessie")
  
     #create the composers
     today = datetime.date.today()
