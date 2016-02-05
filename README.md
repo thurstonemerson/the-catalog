@@ -40,9 +40,17 @@ in the HTTP header.
  
 ##How to run:
 
-This module has a PostgreSQL backend. The database can be created using the python script provided:
+This module has a PostgreSQL backend. The database can be created from psql using the script provided:
 
-	python manage.py
+	sudo su postgres 
+	\i catalog_create_database.sql
+	
+The database can be seeded with the following command:
+
+	python catalog_seed_database.py
+	
+This script generates some test data to play around with. Two users are created with the
+email/password combinations "katja@gmail.com/cat" and "louisa@gmail.com/dog"
 	
 The web server can be started with the following command:
 
