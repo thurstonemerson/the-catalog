@@ -77,7 +77,7 @@ def me():
     user = User.query.filter_by(id=g.user_id).first()
     return jsonify(user.to_json())
 
-
+#login with user supplied email and password
 @authentication.route('/login', methods=['POST'])
 def login():
     user = User.query.filter_by(email=request.json['email']).first()
@@ -88,7 +88,7 @@ def login():
     token = create_token(user)
     return jsonify(token=token)
 
-
+#signup, add an email and password to the database
 @authentication.route('/signup', methods=['POST'])
 def signup():
     user = User(email=request.json['email'], password=request.json['password'])
@@ -98,7 +98,7 @@ def signup():
     return jsonify(token=token)
 
 
-
+#authenticate via facebook
 @authentication.route('/facebook', methods=['POST'])
 def facebook():
     access_token_url = 'https://graph.facebook.com/v2.3/oauth/access_token'
@@ -155,6 +155,7 @@ def facebook():
     return jsonify(token=token)
 
 
+#authenticate via google
 @authentication.route('/google', methods=['POST'])
 def google():
     access_token_url = 'https://accounts.google.com/o/oauth2/token'
@@ -186,7 +187,7 @@ def google():
     token = create_token(u)
     return jsonify(token=token)
 
-
+#authenticate via twitter
 @authentication.route('/twitter', methods=['POST'])
 def twitter():
     request_token_url = 'https://api.twitter.com/oauth/request_token'
@@ -213,7 +214,7 @@ def twitter():
     else:
         oauth = OAuth1(app.config['TWITTER_CONSUMER_KEY'],
                        client_secret=app.config['TWITTER_CONSUMER_SECRET'],
-                       callback_uri=app.config['TWITTER_CALLBACK_URL'])
+                       callback_uri=request.json['redirectUri'])
         r = requests.post(request_token_url, auth=oauth)
         oauth_token = dict(parse_qsl(r.text))
         return jsonify(oauth_token)
