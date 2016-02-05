@@ -40,6 +40,9 @@ in the HTTP header.
  
 ##How to run:
 
+The required python modules can be loaded from the vagrant configuration file pg_config.sh
+in this repository.
+
 This module has a PostgreSQL backend. The database can be created from psql using the script provided:
 
 	sudo su postgres 
