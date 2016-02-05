@@ -52,12 +52,22 @@ The client can be accessed through http://localhost:5000/
 
 ##Using the app
 
-First log into the app using via the log in screen [login!](files/examples/login.png)
+First log into the app using via the log in screen ![Log in screenshot](files/examples/login.png)
 
-Successful login will show a success message [logged in!](files/examples/loggedin.png)
+Successful login will show a success message ![Logged in screenshot](files/examples/loggedin.png)
 
 If it is the first time logging into the application, you will need to create some 
-composers and music items.
+composers and music items. ![Add composers screenshot](files/examples/addcomposers.png)
+
+Once you have added some composers, you can use the hyperlink in the composers name
+to navigate to a list of music items.
+![Composers screenshot](files/examples/composers.png)
+
+Add a music item and file to associate with the composer.
+![Music item screenshot](files/examples/musicitem.png)
+
+Multiple files can be added and uploaded with a music item. Music items and files can be updated or deleted.
+![Music item screenshot](files/examples/musicitems.png)
 
 ##Browers:
 
