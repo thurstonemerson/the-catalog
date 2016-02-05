@@ -25,11 +25,19 @@ Passwords are stored in the database via a one way hashing function for security
 Once logged in, JSON web tokens are used to authenticate users rather than cookies. Therefore we do not need to 
 store a randomly generated string in the session to mitigate CSRF attacks.
 (See here for more information http://stackoverflow.com/questions/21357182/csrf-token-necessary-when-using-stateless-sessionless-authentication)
-The web tokens are passed as a bearer in the HTTP authorization header. It is not possible to
-access the REST api JSON endpoints via the browser once logged in, as the web token is required
+This web token will expire after one hour. The web tokens are passed as a bearer in the HTTP authorization header. 
+It is not possible to access the REST api JSON endpoints via the browser once logged in, as the web token is required
 in the HTTP header.
- 
 
+###Extra credit
+
+- Project uses javascript MVC framework angular.js instead of jinja templating
+- API performs CRUD operations on the database and allows uploading and saving of files to the server
+- Instead of nonce tokens to mitigate cross site request forgeries, JSON web tokens are passed with every request
+- Oauth login for google, facebook and twitter provided, as well as authentication via a user supplied email/password combination
+- Passwords stored in database using a one-way hashing function for security
+- All categories and items added are only viewable to the user who added them
+ 
 ##How to run:
 
 This module has a PostgreSQL backend. The database can be created using the python script provided:
@@ -41,6 +49,15 @@ The web server can be started with the following command:
 	python run.py
 	
 The client can be accessed through http://localhost:5000/
+
+##Using the app
+
+First log into the app using via the log in screen [login!](files/examples/login.png)
+
+Successful login will show a success message [logged in!](files/examples/loggedin.png)
+
+If it is the first time logging into the application, you will need to create some 
+composers and music items.
 
 ##Browers:
 
