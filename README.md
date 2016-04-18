@@ -40,12 +40,13 @@ in the HTTP header.
  
 ##How to run:
 
-The required python modules can be loaded from the vagrant configuration file pg_config.sh
-in this repository.
+The required python modules can be loaded from the vagrant configuration file **pg_config.sh**
+located in the top directory of this repository.
 
 This module has a PostgreSQL backend. The database can be created from psql using the script provided:
 
-	sudo su postgres 
+	sudo su postgres
+	psql 
 	\i catalog_create_database.sql
 	
 The database can be seeded with the following command:
@@ -53,7 +54,7 @@ The database can be seeded with the following command:
 	python catalog_seed_database.py
 	
 This script generates some test data to play around with. Two users are created with the
-email/password combinations "katja@gmail.com/cat" and "louisa@gmail.com/dog"
+email/password combinations katja@gmail.com/cat and louisa@gmail.com/dog
 	
 The web server can be started with the following command:
 
