@@ -69,12 +69,12 @@ email/password combinations katja@gmail.com/cat and louisa@gmail.com/dog.
 
 ## Usage
 
-1. First log into the app using via the log in screen ![Log in screenshot](files/examples/login.png)
+1. First log into the app using via the log in screen 
 
-1. Successful login will show a success message ![Logged in screenshot](files/examples/loggedin.png)
+1. Successful login will show a success message 
 
 1. If it is the first time logging into the application, you will need to create some 
-composers and music items. ![Add composers screenshot](files/examples/addcomposer.png)
+composers and music items. 
 
 1. Once you have added some composers, you can use the hyperlink in the composers name
 to navigate to a list of music items.
@@ -83,7 +83,8 @@ to navigate to a list of music items.
 
 1. Multiple files can be added and uploaded with a music item. Music items and files can be updated or deleted.
 
-![Music item screenshot](files/examples/composersmulti.png)
+![Log in screenshot](files/examples/loginmulti.png)
+![Add music item screenshot](files/examples/composersmulti.png)
 
 ## Browser support
 
