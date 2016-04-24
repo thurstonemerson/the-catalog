@@ -12,3 +12,4 @@ oauth2client==1.5.1
 Flask-Restless==0.17.0
 Flask-SQLAlchemy==2.1
 virtualenv==13.1.2
+PyJWT==1.4.0
