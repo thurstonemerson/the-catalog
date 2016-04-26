@@ -56,12 +56,15 @@ def uploadFileToMusicItem():
             response = jsonify(message="Couldn't find music item")
             response.status_code = 401
             return response
-         
-        filename = uploadFileToServer(uploadFile, musicItem)
-        createMusicFile(musicItem, filename)
         
-        response = jsonify(message="File has been saved %s"% filename)
-        response.status_code = 200
+        try:
+            filename = uploadFileToServer(uploadFile, musicItem)
+            createMusicFile(musicItem, filename)
+            response = jsonify(message="File has been saved %s"% filename)
+            response.status_code = 200
+        except Exception, e:
+            response = jsonify(message="Failed to upload file %s"% str(e))
+            response.status_code = 500
         return response
          
     response = jsonify(message="File could not be saved")
@@ -171,14 +174,20 @@ def addMusicItem():
   
     if 'file' in request.files:
         uploadFile = request.files['file']
-        filepath = uploadFileToServer(uploadFile, musicItem)
-        createMusicFile(musicItem, filepath)
         print "uploading a file"
+        try:
+            filepath = uploadFileToServer(uploadFile, musicItem)
+            createMusicFile(musicItem, filepath)
+            response = jsonify(message="Added music item %s"%musicItem.name)
+            response.status_code = 200
+        except Exception, e:
+            response = jsonify(message="Failed to upload file %s"% str(e))
+            response.status_code = 500
     else:
         print "no file to upload"
+        response = jsonify(message="Added music item %s"%musicItem.name)
+        response.status_code = 200
 
-    response = jsonify(message="Added music item %s"%musicItem.name)
-    response.status_code = 200
     return response
 
 '''
