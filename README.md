@@ -57,6 +57,17 @@ The following assumes you have all of the tools listed above installed.
     This script generates some test data to play around with. Two users are created with the
 email/password combinations katja@gmail.com/cat and louisa@gmail.com/dog.
 
+1. Configuration of application:
+
+    ```
+	$ sudo nano the-catalog/config.py
+    ```
+    
+    In the configuration file you can add your file path to a location where the user running 
+    web server has permission to write files. This is only necessary if you are going to run
+    this program over a web server such as [Apache](http://www.apache.org/), rather than use the
+    python run script. Configuration defaults to relative directory path 'file'.
+
 ## Run the program
  	
 - The web server can be started with the following command:

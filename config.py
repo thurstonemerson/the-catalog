@@ -3,6 +3,7 @@ import os
 DEBUG = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+UPLOAD_FOLDER = 'files'
 TOKEN_SECRET = os.environ.get('SECRET_KEY') or 'JWT Token Secret String'
 FACEBOOK_SECRET = os.environ.get('FACEBOOK_SECRET') or '7d99bd976045110ab7c479589c6a3d01'
 GITHUB_SECRET = os.environ.get('GITHUB_SECRET') or 'GitHub Client Secret'
